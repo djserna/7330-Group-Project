@@ -13,8 +13,7 @@ namespace GP1.App
 {
     class Program
     {
-        static string IEXTrading_API_PATH = "https://api.iextrading.com/1.0/stock/{0}/chart/1y";
-        static string IEXTrading_API_PATH2 = "https://api.iextrading.com/1.0/stock/{symbol}/chart/{years}y";
+        static string IEXTrading_API_PATH = "https://api.iextrading.com/1.0/stock/{symbol}/chart/{years}y";
         static string[] symbols = { "msft" };
         static void Main(string[] args)
         {
@@ -28,7 +27,7 @@ namespace GP1.App
 
         public static List<HistoricalDataResponse> GetChart(string symbol, int years)
         {
-            RestClient client = new RestClient(IEXTrading_API_PATH2);
+            RestClient client = new RestClient(IEXTrading_API_PATH);
             RestRequest request = new RestRequest(Method.GET);
             request.AddHeader("Accept", "application/json");
             request.AddUrlSegment("symbol", symbol);
@@ -97,38 +96,6 @@ namespace GP1.App
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Error deleting stock data from database. Message:{ex.Message}");
-                }
-            }
-        }
-
-        public static void executeSampleCode()
-        {
-            var symbol = "msft";
-            IEXTrading_API_PATH = string.Format(IEXTrading_API_PATH, symbol);
-
-            using (HttpClient client = new HttpClient())
-            {
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
-                //For IP-API
-                client.BaseAddress = new Uri(IEXTrading_API_PATH);
-                HttpResponseMessage response = client.GetAsync(IEXTrading_API_PATH).GetAwaiter().GetResult();
-                if (response.IsSuccessStatusCode)
-                {
-                    var historicalDataList = response.Content.ReadAsAsync<List<HistoricalDataResponse>>().GetAwaiter().GetResult();
-                    foreach (var historicalData in historicalDataList)
-                    {
-                        if (historicalData != null)
-                        {
-                            Console.WriteLine("Open: " + historicalData.open);
-                            Console.WriteLine("Close: " + historicalData.close);
-                            Console.WriteLine("Low: " + historicalData.low);
-                            Console.WriteLine("High: " + historicalData.high);
-                            Console.WriteLine("Change: " + historicalData.change);
-                            Console.WriteLine("Change Percentage: " + historicalData.changePercent);
-                        }
-                    }
                 }
             }
         }
