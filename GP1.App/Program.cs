@@ -14,7 +14,7 @@ namespace GP1.App
     class Program
     {
         static string IEXTrading_API_PATH = "https://api.iextrading.com/1.0/stock/{symbol}/chart/{years}y";
-        static string[] symbols = { "msft" };
+        static string[] symbols = { "msft", "wmt", "dji", "ge",  };
         static void Main(string[] args)
         {
             DeleteExistingStockData();
