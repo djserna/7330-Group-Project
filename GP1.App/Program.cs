@@ -85,6 +85,7 @@ namespace GP1.App
                         command.Parameters.AddWithValue("@High", stockData.high);
                         command.Parameters.AddWithValue("@Low", stockData.low);
                         command.Parameters.AddWithValue("@QuoteDate", stockData.date);
+                        command.Parameters.AddWithValue("@Close", stockData.close);
                         command.ExecuteNonQuery();
                         counter--;
                         if (counter % 100 == 0)
@@ -95,7 +96,7 @@ namespace GP1.App
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Error deleting stock data from database. Message:{ex.Message}");
+                    Console.WriteLine($"Error writing stock data to database. Message:{ex.Message}");
                 }
             }
         }
